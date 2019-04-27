@@ -103,10 +103,10 @@ bool processPlayerInput(PongTable &table) {
 	switch (input)
 	{
 	case UP:
-		playerPadVel.yValue -= .05;
+		playerPadVel.yValue -= .15;
 		break;
 	case DOWN:
-		playerPadVel.yValue += .05;
+		playerPadVel.yValue += .15;
 		break;
 	//case LEFT:
 		//playerPadVel.xValue -= .25;

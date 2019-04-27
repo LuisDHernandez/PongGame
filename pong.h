@@ -54,8 +54,8 @@ const int PADDLE_WIDTH = 2;
 const int PADDLE_OFFSET = 4;
 
 //ball dimension constants
-const int BALL_START_X = SCREEN_OFFSET + PADDLE_OFFSET + PADDLE_WIDTH + 10;
-const int BALL_START_Y = (SCREEN_HEIGHT / 2) - 10;
+const int BALL_START_X = SCREEN_WIDTH / 2;
+const int BALL_START_Y = SCREEN_HEIGHT / 2;
 const int BALL_START_VEL_X = 1;
 const int BALL_START_VEL_Y = -1;
 

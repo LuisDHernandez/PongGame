@@ -14,18 +14,6 @@ PongTable::PongTable() {
 	Position ballVelocity = { BALL_START_VEL_X, BALL_START_VEL_Y};
 	ball = { BALL_HEIGHT, BALL_WIDTH, ballCurrent, ballPrevious, ballVelocity, true };
 
-	// ai paddle
-	Position aiPaddlePosition;
-	aiPaddlePosition.xValue = rightWall.getCurrent().xValue - PADDLE_OFFSET - PADDLE_WIDTH;
-	aiPaddlePosition.yValue = (SCREEN_HEIGHT / 2) - (PADDLE_HEIGHT / 2);
-	cpuPaddle = PongObject(PADDLE_HEIGHT, PADDLE_WIDTH, aiPaddlePosition, { 0,0 }, {0,0}, false);
-
-	// player paddle
-	Position playerPadPos;
-	playerPadPos.xValue = leftWall.getCurrent().xValue + PADDLE_OFFSET;	
-	playerPadPos.yValue = (SCREEN_HEIGHT / 2) - (PADDLE_HEIGHT / 2);
-	playersPaddle = PongObject(PADDLE_HEIGHT, PADDLE_WIDTH, playerPadPos, { 0,0 }, {0,0}, false);
-
 	//top wall 
 	int topHeight = WALL_THICKNESS;
 	int topWidth = SCREEN_WIDTH - (2 * SCREEN_OFFSET);
@@ -58,6 +46,17 @@ PongTable::PongTable() {
 	Position bottomVelocity = { 0,0 };
 	bottomWall = PongObject(bottomHeight, bottomWidth, bottomCurrent, bottomPrevious, bottomVelocity, false);
 
+	// ai paddle
+	Position aiPaddlePosition;
+	aiPaddlePosition.xValue = rightWall.getCurrent().xValue - PADDLE_OFFSET - PADDLE_WIDTH;
+	aiPaddlePosition.yValue = (SCREEN_HEIGHT / 2) - (PADDLE_HEIGHT / 2);
+	cpuPaddle = PongObject(PADDLE_HEIGHT, PADDLE_WIDTH, aiPaddlePosition, { 0,0 }, { 0,0 }, false);
+
+	// player paddle
+	Position playerPadPos;
+	playerPadPos.xValue = leftWall.getCurrent().xValue + PADDLE_OFFSET;
+	playerPadPos.yValue = (SCREEN_HEIGHT / 2) - (PADDLE_HEIGHT / 2);
+	playersPaddle = PongObject(PADDLE_HEIGHT, PADDLE_WIDTH, playerPadPos, { 0,0 }, { 0,0 }, false);
 };
 
 PongObject *PongTable::getBall() {
@@ -179,6 +178,9 @@ bool PongTable::collosions() {
 		bottomWall.setIsDirty(true);
 	}
 
+	cpuPaddle.setCurrent(aiPadCur);
+	cpuPaddle.setVelocity(aiPadVel);
+
 	Position currentPlayerPad = playersPaddle.getCurrent();
 	Position velocityPlayerPad = playersPaddle.getVelocity();
 
@@ -195,9 +197,6 @@ bool PongTable::collosions() {
 		velocityPlayerPad.yValue = 0.0;
 		bottomWall.setIsDirty(true);
 	}
-
-	cpuPaddle.setCurrent(aiPadCur);
-	cpuPaddle.setVelocity(aiPadVel);
 
 	playersPaddle.setCurrent(currentPlayerPad);
 	playersPaddle.setVelocity(velocityPlayerPad);
