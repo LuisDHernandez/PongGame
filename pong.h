@@ -54,11 +54,13 @@ const int PADDLE_WIDTH = 2;
 const int PADDLE_OFFSET = 4;
 
 //ball dimension constants
-const int BALL_START_X = SCREEN_WIDTH / 2;
-const int BALL_START_Y = SCREEN_HEIGHT / 2;
+const int BALL_START_X = SCREEN_WIDTH / 12;
+const int BALL_START_Y = SCREEN_HEIGHT / 8;
 const int BALL_START_VEL_X = 1;
-const int BALL_START_VEL_Y = -1;
+const int BALL_START_VEL_Y = 1;
 
+// MAX aiPaddle velocity extra credit
+const float maxCPUPaddleVelocity = 1;
 
 //the ball as an array
 const COLORREF BALL_PATTERN[BALL_HEIGHT][BALL_WIDTH] = {
@@ -68,6 +70,5 @@ const COLORREF BALL_PATTERN[BALL_HEIGHT][BALL_WIDTH] = {
 { PAINT, PAINT, PAINT, PAINT, PAINT, PAINT },
 { BLACK, PAINT, PAINT, PAINT, PAINT, BLACK },
 { BLACK, BLACK, PAINT, PAINT, BLACK, BLACK } };
-
 
 #endif //  PONG_H

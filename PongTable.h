@@ -14,25 +14,36 @@
 class PongTable {
 
 public:
+
 	PongTable();
+
+	/*ACCESSOR METHODS*/
 	PongObject *getBall();
 	PongObject *getTopWall();
 	PongObject *getLeftWall();
 	PongObject *getRightWall();
 	PongObject *getBottomWall();
+	PongObject *getWallNet();
+	PongObject *getServeLine();
+	PongObject *getComputerPaddle();
+	PongObject *getPlayersPaddle();
+
+	/*HELPER METHODS*/
 	void render(HDC console, float lag);
 	bool collosions();
-	PongObject *getComputerPaddle();
 	void moveComputerPaddle();
-	PongObject *getPlayersPaddle();
+	
 private:
+
 	PongObject ball;
 	PongObject topWall;
 	PongObject leftWall;
 	PongObject rightWall;
 	PongObject bottomWall;
+	PongObject wallNet;
+	PongObject serveLine;
 	PongObject cpuPaddle;
 	PongObject playersPaddle;
-	
+
 };// end PongTable
 #endif // !PONGTABLE_H 

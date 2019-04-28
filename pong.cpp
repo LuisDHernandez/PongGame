@@ -70,6 +70,7 @@ int main() {
 
 			deltaTime -= FRAME_RATE;
 		}
+
 		// call for draw to draw ball
 		table.render(hdc, deltaTime / FRAME_RATE);
 
@@ -103,17 +104,17 @@ bool processPlayerInput(PongTable &table) {
 	switch (input)
 	{
 	case UP:
-		playerPadVel.yValue -= .15;
+		playerPadVel.yValue -= 1;
 		break;
 	case DOWN:
-		playerPadVel.yValue += .15;
+		playerPadVel.yValue += 1;
 		break;
-	//case LEFT:
-		//playerPadVel.xValue -= .25;
-		//break;
-	//case RIGHT:
-	//	playerPadVel.xValue += .25;
-	//	break;
+	case LEFT:
+		playerPadVel.xValue -= .25;
+		break;
+	case RIGHT:
+		playerPadVel.xValue += .25;
+		break;
 	case QUIT:
 		isProcessed = true;
 		break;
@@ -121,14 +122,21 @@ bool processPlayerInput(PongTable &table) {
 		break;
 	}
 
+	//extra credit code: check for velocity yValue and gradually slow paddle down
+	if (playerPadVel.yValue < 0) {
+	
+		playerPadVel.yValue += 0.00004;
+	}
+	else if (playerPadVel.yValue > 0) {
+	
+		playerPadVel.yValue -= 0.00004;
+	}
+
 	playersPaddle->setVelocity(playerPadVel);
 	table.moveComputerPaddle();
 
 	return isProcessed;
 }
-
-
-
 
 /***************************************************************************************
 * Takes player input to move ball in a certain direction
@@ -226,22 +234,25 @@ bool update(PongTable &table) {
 	PongObject *computerPaddle = table.getComputerPaddle();
 	PongObject *playersPaddle = table.getPlayersPaddle();
 
+	//local variables for ball
 	Position current = ball->getCurrent();
 	Position velocity = ball->getVelocity();
 
-	// add velocities to positions
+	// add velocities to positions for ball
 	current.xValue += velocity.xValue;
 	current.yValue += velocity.yValue;
 
+	 // set new values for ball coordinates
 	ball->setCurrent(current);
 
-	//ai paddle
+	//ai paddle updates
 	Position aiPadCur = computerPaddle->getCurrent();
 	Position aiPadVel = computerPaddle->getVelocity();
 	aiPadCur.yValue += aiPadVel.yValue;
 
 	computerPaddle->setCurrent(aiPadCur);
 
+	//player paddle updating
 	Position playerCur = playersPaddle->getCurrent();
 	Position playerVel = playersPaddle->getVelocity();
 	playerCur.yValue += playerVel.yValue;

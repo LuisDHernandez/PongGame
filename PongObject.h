@@ -14,41 +14,41 @@
 class PongObject {
 
 public:
+	//default
 	PongObject();
 
+	//overloaded
 	PongObject(int heightIn, int widthIn, Position currentIn, Position previousIn, Position velocityIn, bool flagIn);
 
+	/*ACCESSOR METHODS*/
 	Position getCurrent();
 	Position getPrevious();
 	Position getVelocity();
 	Position getCurrent(float lag);
-
-	void setCurrent(Position value);
-	void setPrevious(Position value);
-	void setVelocity(Position value);
-
-	void erase(HDC console);
-	void draw(HDC console, float lag);
-	void render(HDC console, float lag);
-	bool hasMoved(float lag);
-
-	/*Accessor Methods*/
 	int getHeight();
 	int getWidth();
 	bool isBall();
 	bool isDirty();
 
-	/*Setter Methods*/
+	/*SETTER METHODS*/
+	void setCurrent(Position value);
+	void setPrevious(Position value);
+	void setVelocity(Position value);
 	void setHeight(int value);
 	void setWidth(int value);
 	void setIsBall(bool flagvar);
 	void setIsDirty(bool dirtyId);
 
 	/*HELPER METHODS*/
+	void erase(HDC console);
+	void draw(HDC console, float lag);
+	void render(HDC console, float lag);
+	bool hasMoved(float lag);
 	bool intersects(PongObject *other);
 
 
 private:
+
 	Position current;
 	Position previous;
 	Position velocity;

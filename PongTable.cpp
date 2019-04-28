@@ -9,6 +9,7 @@
 #include "PongTable.h"
 
 PongTable::PongTable() {
+
 	Position ballCurrent = { BALL_START_X, BALL_START_Y };
 	Position ballPrevious = { 0,0 };
 	Position ballVelocity = { BALL_START_VEL_X, BALL_START_VEL_Y};
@@ -45,6 +46,22 @@ PongTable::PongTable() {
 	Position bottomPrevious = { 0,0 };
 	Position bottomVelocity = { 0,0 };
 	bottomWall = PongObject(bottomHeight, bottomWidth, bottomCurrent, bottomPrevious, bottomVelocity, false);
+
+	//wallNet aka middle wall extra credit 
+	int wallNetHeight = SCREEN_HEIGHT - SCREEN_OFFSET - WALL_THICKNESS;
+	int wallNetWidth = WALL_THICKNESS;
+	Position netCurrent = {SCREEN_WIDTH / 2, 0 };
+	Position netPrevious = {0,0};
+	Position netVelocity = {0,0};
+	wallNet = PongObject(wallNetHeight,wallNetWidth,netCurrent,netPrevious,netVelocity,false);
+
+	//serveLine wall
+	int serveLineHeight = WALL_THICKNESS;
+	int serveLineWidth = SCREEN_WIDTH - (SCREEN_HEIGHT / 2);
+	Position serveLineCur = {SCREEN_WIDTH / 8, SCREEN_HEIGHT / 2};
+	Position serveLinePrev = {0,0};
+	Position serveLineVel = { 0,0 };
+	serveLine = PongObject(serveLineHeight, serveLineWidth, serveLineCur, serveLinePrev, serveLineVel, false);
 
 	// ai paddle
 	Position aiPaddlePosition;
@@ -84,7 +101,19 @@ PongObject *PongTable::getBottomWall() {
 	return &bottomWall;
 };
 
+PongObject *PongTable::getWallNet() {
+
+	return &wallNet;
+}
+
+PongObject *PongTable::getServeLine() {
+
+	return &serveLine;
+
+}
+
 PongObject *PongTable::getComputerPaddle() {
+
 	return &cpuPaddle;
 }
 
@@ -109,6 +138,9 @@ void PongTable:: render(HDC console, float lag) {
 	rightWall.render(console, 0);
 	bottomWall.render(console, 0);
 
+	//draw serve and net lines
+	wallNet.render(console, 0);
+	serveLine.render(console, 0);
 
 	return;
 };
@@ -124,23 +156,27 @@ bool PongTable::collosions() {
 
 	// check for collision with walls and paddles
 
-	if (ball.intersects(&cpuPaddle)) {
+	if (ball.intersects(&cpuPaddle)) { // cpupaddle intersection
+
 		ballCurrent.xValue = cpuPaddle.getCurrent().xValue - ball.getWidth() - 1;
 		ballVelocity.xValue *= -1;
 		cpuPaddle.setIsDirty(true);
 	}
-	else if (ball.intersects(&playersPaddle)) {
+	else if (ball.intersects(&playersPaddle)) {    //player paddle
+
 		ballCurrent.xValue = playersPaddle.getCurrent().xValue + ball.getWidth() + 1;
 		ballVelocity.xValue *= -1;
 		playersPaddle.setIsDirty(true);
 	}
-	else if (ball.intersects(&leftWall)) {      //left wall
+	else if (ball.intersects(&leftWall)) {   //left wall
+
 		ballCurrent.xValue = leftWall.getCurrent().xValue + leftWall.getWidth() + 1;
 		ballVelocity.xValue *= -1;
 		leftWall.setIsDirty(true);
 		scoredPoint = true;
 	}
 	else if (ball.intersects(&rightWall)) {     //right wall
+
 		ballCurrent.xValue = rightWall.getCurrent().xValue - ball.getWidth() - 1;
 		ballVelocity.xValue *= (-1);
 		rightWall.setIsDirty(true);
@@ -148,19 +184,31 @@ bool PongTable::collosions() {
 	}
 
 	if (ball.intersects(&topWall)) { //top wall
+
 		ballCurrent.yValue = topWall.getCurrent().yValue + ball.getHeight() + 1;
 		ballVelocity.yValue *= (-1);
 		topWall.setIsDirty(true);
 	}
 	else if (ball.intersects(&bottomWall)) {   //bottom wall
+
 		ballCurrent.yValue = bottomWall.getCurrent().yValue - ball.getHeight() - 1;
 		ballVelocity.yValue *= (-1);
 		bottomWall.setIsDirty(true);
+	}
+
+	if (ball.intersects(&wallNet)) { // middle wall
+
+		wallNet.setIsDirty(true);
+	}
+	if (ball.intersects(&serveLine)) { // serveline
+
+		serveLine.setIsDirty(true);
 	}
 	
 	ball.setCurrent(ballCurrent);
 	ball.setVelocity(ballVelocity);
 
+	//ai paddle wall interactions
 	Position aiPadCur = cpuPaddle.getCurrent();
 	Position aiPadVel = cpuPaddle.getVelocity();
 
@@ -181,6 +229,7 @@ bool PongTable::collosions() {
 	cpuPaddle.setCurrent(aiPadCur);
 	cpuPaddle.setVelocity(aiPadVel);
 
+	//player paddle wall interactions
 	Position currentPlayerPad = playersPaddle.getCurrent();
 	Position velocityPlayerPad = playersPaddle.getVelocity();
 
@@ -201,8 +250,6 @@ bool PongTable::collosions() {
 	playersPaddle.setCurrent(currentPlayerPad);
 	playersPaddle.setVelocity(velocityPlayerPad);
 
-
-
 	return scoredPoint;
 };
 
@@ -220,7 +267,6 @@ void PongTable::moveComputerPaddle() {
 	float ballTop = ballCurrent.yValue;
 	float ballBottom = ballTop + BALL_HEIGHT;
 
-
 	if (ballBottom < paddleTop) {
 		aiPadVel.yValue -= .02;
 	}
@@ -230,6 +276,14 @@ void PongTable::moveComputerPaddle() {
 	else {
 		aiPadVel.yValue = 0.0;
 	}
+	// conditional check for max ai velocity extra credit
+	if (aiPadVel.yValue > maxCPUPaddleVelocity) {
 	
+		aiPadVel.yValue = maxCPUPaddleVelocity;
+	}
+	else if (-(aiPadVel.yValue) < -(maxCPUPaddleVelocity)) {
+	
+		aiPadVel.yValue = -(maxCPUPaddleVelocity);
+	}
 	cpuPaddle.setVelocity(aiPadVel);
 };

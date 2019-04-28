@@ -8,8 +8,9 @@
 
 #include "PongObject.h"
 
-/**/
+/*main constructor*/
 PongObject::PongObject() {
+
 	height = 0;
 	width = 0;
 	current = { 0.0f ,0.0f };
@@ -18,7 +19,7 @@ PongObject::PongObject() {
 	dirty = true;
 }
 
-/**/
+/*overloaded constructor*/
 PongObject::PongObject(int heightIn, int widthIn, Position currentIn, Position previousIn, Position velocityIn, bool flagIn) {
 
 	current = currentIn;
@@ -39,7 +40,6 @@ int PongObject::getHeight() { return height; }
 int PongObject::getWidth() { return width; }
 bool PongObject::isBall() { return ballFlag; }
 bool PongObject::isDirty() { return dirty; }
-
 Position PongObject::getCurrent(float lagtime) {
 
 	Position localValue;
@@ -52,24 +52,31 @@ Position PongObject::getCurrent(float lagtime) {
 
 /***SETTER METHODS***/
 void PongObject::setCurrent(Position value) {
+
 	current = value;
 }
 void PongObject::setPrevious(Position value) {
+
 	previous = value;
 }
 void PongObject::setVelocity(Position value) {
+
 	velocity = value;
 }
 void PongObject::setHeight(int heightIn) {
+
 	height = heightIn;
 }
 void PongObject::setWidth(int widthIn) {
+
 	width = widthIn;
 }
 void PongObject::setIsBall(bool flagIn) {
+
 	ballFlag = flagIn;
 }
 void PongObject::setIsDirty(bool dirtyId) {
+
 	dirty = dirtyId;
 }
 
@@ -117,7 +124,8 @@ void PongObject::draw(HDC console, float lag) {
 			}
 			SetPixel(console, xpos + col, ypos + row, paint);
 		}
-	}
+	} // end for loop and redraw complete
+
 	setPrevious(adjusted);
 
 	return;
@@ -131,9 +139,11 @@ void PongObject::render(HDC console, float lag) {
 		setIsDirty(false);
 	}
 
+	return;
 }
 
 bool PongObject::intersects(PongObject *other) {
+
 	// local object
 	float thisTop = current.yValue;
 	float thisBottom = current.yValue + height;
