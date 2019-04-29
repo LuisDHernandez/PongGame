@@ -1,0 +1,18 @@
+﻿  PongObject.cpp
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.cpp(100): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.cpp(101): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.cpp(116): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.cpp(117): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  PongTable.cpp
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongtable.cpp(273): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongtable.cpp(276): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongtable.cpp(318): warning C4305: '-=': truncation from 'double' to 'float'
+  pong.cpp
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pongobject.h(9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pong.cpp(61): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pong.cpp(128): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\cobol\onedrive - florida gulf coast university\cop 2001 methodology\pong\pong\pong.cpp(132): warning C4305: '-=': truncation from 'double' to 'float'
+  Generating Code...
+  Pong.vcxproj -> C:\Users\cobol\OneDrive - Florida Gulf Coast University\COP 2001 Methodology\Pong\Debug\Pong.exe

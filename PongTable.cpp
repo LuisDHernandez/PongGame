@@ -159,12 +159,14 @@ bool PongTable::collosions() {
 	if (ball.intersects(&cpuPaddle)) { // cpupaddle intersection
 
 		ballCurrent.xValue = cpuPaddle.getCurrent().xValue - ball.getWidth() - 1;
+		ballVelocity = hitTrickshot(cpuPaddle);
 		ballVelocity.xValue *= -1;
 		cpuPaddle.setIsDirty(true);
 	}
 	else if (ball.intersects(&playersPaddle)) {    //player paddle
 
 		ballCurrent.xValue = playersPaddle.getCurrent().xValue + ball.getWidth() + 1;
+		ballVelocity = hitTrickshot(playersPaddle);
 		ballVelocity.xValue *= -1;
 		playersPaddle.setIsDirty(true);
 	}
@@ -277,13 +279,95 @@ void PongTable::moveComputerPaddle() {
 		aiPadVel.yValue = 0.0;
 	}
 	// conditional check for max ai velocity extra credit
-	if (aiPadVel.yValue > maxCPUPaddleVelocity) {
+	if (aiPadVel.yValue > MAX_CPU_PADDLE_VELOCITY) {
 	
-		aiPadVel.yValue = maxCPUPaddleVelocity;
+		aiPadVel.yValue = MAX_CPU_PADDLE_VELOCITY;
 	}
-	else if (-(aiPadVel.yValue) < -(maxCPUPaddleVelocity)) {
+	else if (-(aiPadVel.yValue) < -(MAX_CPU_PADDLE_VELOCITY)) {
 	
-		aiPadVel.yValue = -(maxCPUPaddleVelocity);
+		aiPadVel.yValue = -(MAX_CPU_PADDLE_VELOCITY);
 	}
 	cpuPaddle.setVelocity(aiPadVel);
 };
+
+Position PongTable::hitTrickshot(PongObject somePaddle) { // extra credit trickshot function
+
+	//get ball velocity to calculate trickshot
+	Position trickshotVelocity = ball.getVelocity();
+
+	// bool variables to test situations
+	bool isUp = trickshotVelocity.yValue < 0 ;
+	bool isDown = trickshotVelocity.yValue > 0;
+	bool isRight = trickshotVelocity.xValue > 0;
+	bool isLeft = trickshotVelocity.xValue < 0;
+
+	// local paddle division for bool check
+	float padTop = somePaddle.getCurrent().yValue;
+	float padBot = somePaddle.getCurrent().yValue + PADDLE_HEIGHT;
+	padTop += PADDLE_HEIGHT / 3;
+	padBot -= PADDLE_HEIGHT / 3;
+
+	//call ball midpoint to test if its hitting top or bottom of paddle
+	float ballMidpoint = ball.getCurrent().yValue + BALL_HEIGHT / 2;
+
+	bool isTop = ballMidpoint > padTop;
+	bool isBottom = ballMidpoint < padBot;
+
+	if ( isTop && isUp ) {
+	
+		trickshotVelocity.yValue -= 0.05;
+
+		if (isLeft) {
+		
+			trickshotVelocity.xValue -= .25;
+		}
+		else if (isRight) {
+		
+			trickshotVelocity.xValue += .25;
+		}
+	}
+
+	else if ( isBottom && isUp) {
+	
+		trickshotVelocity.yValue += .25;
+
+		if (isLeft) {
+		
+			trickshotVelocity.xValue += .25;
+		}
+		else if (isRight) {
+		
+			trickshotVelocity.xValue -= .25;
+		}
+	}
+	else if ( isTop && !(isUp)) {
+	
+		trickshotVelocity.yValue -= .25;
+
+		if(isLeft) {
+		
+			trickshotVelocity.xValue += .25;
+		}
+		else if (isRight) {
+		
+			trickshotVelocity.xValue -= .25;
+		}
+
+	}
+	else if ( isBottom && !(isUp)) {
+	
+		trickshotVelocity.yValue += .5;
+		
+		if (isLeft) {
+
+			trickshotVelocity.xValue -= .25;
+		}
+		else if (isRight) {
+		
+			trickshotVelocity.xValue += .25;
+		}
+	}
+
+	return trickshotVelocity;
+
+}

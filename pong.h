@@ -60,7 +60,7 @@ const int BALL_START_VEL_X = 1;
 const int BALL_START_VEL_Y = 1;
 
 // MAX aiPaddle velocity extra credit
-const float maxCPUPaddleVelocity = 1;
+const float MAX_CPU_PADDLE_VELOCITY = 1.1;
 
 //the ball as an array
 const COLORREF BALL_PATTERN[BALL_HEIGHT][BALL_WIDTH] = {

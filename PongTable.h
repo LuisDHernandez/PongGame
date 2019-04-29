@@ -44,6 +44,7 @@ private:
 	PongObject serveLine;
 	PongObject cpuPaddle;
 	PongObject playersPaddle;
+	Position hitTrickshot(PongObject somePaddle);
 
 };// end PongTable
 #endif // !PONGTABLE_H 
